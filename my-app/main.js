@@ -13,4 +13,6 @@ function createWindow() {
   win.loadURL('http://localhost:5173'); // this opens in the Electron window
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+});
