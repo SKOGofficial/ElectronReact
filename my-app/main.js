@@ -1,23 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron/main')
-const path = require('node:path')
+import { app, BrowserWindow } from 'electron';
 
-const createWindow = () => {
+function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
+      nodeIntegration: false, // usually false with Vite
+      contextIsolation: true,
+    },
+  });
 
-  win.loadFile('index.html')
+  win.loadURL('http://localhost:5173'); // this opens in the Electron window
 }
 
-app.whenReady().then(() => {
-    ipcMain.handle('ping', () => 'pong')
-    createWindow()
-})
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-})
+app.whenReady().then(createWindow);
